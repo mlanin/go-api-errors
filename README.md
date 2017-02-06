@@ -19,9 +19,9 @@ fail.
     Fail string `json:"fail"`
   }{
     Fail: "JWT is malformed.",
-  })
-
-panic(fail)
+  }).
+  // panic(&err) helper
+  Send()
 ```
 
 # More
