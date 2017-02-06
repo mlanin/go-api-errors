@@ -7,6 +7,19 @@ Set of handy HTTP errors for JSON web services on go.
 go get github.com/mlanin/go-apierr
 ```
 
+# About
+
+Prepared set of errors for API usage. Can be transformed into JSON like:
+
+```json
+{
+    "id": "not_found",
+    "message": "Requested object not found."
+}
+```
+
+Also contain corresponding HTTP status code.
+
 # Use
 
 ```go
