@@ -13,8 +13,10 @@ Prepared set of errors for API usage. Can be transformed into JSON like:
 
 ```json
 {
-    "id": "not_found",
-    "message": "Requested object not found."
+    "error": {
+      "id": "not_found",
+      "message": "Requested object not found."
+    }
 }
 ```
 
