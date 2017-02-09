@@ -2,10 +2,16 @@ package apierr
 
 import "net/http"
 
+// Body of the error.
+// Contains basic error info.
+type Body struct {
+	ID      string `json:"id"`
+	Message string `json:"message"`
+}
+
 // APIError custom API error.
 type APIError struct {
-	ID           string      `json:"id"`
-	Message      string      `json:"message"`
+	Body         Body        `json:"error"`
 	Meta         interface{} `json:"meta,omitempty"`
 	HTTPCode     int         `json:"-"`
 	Context      interface{} `json:"-"`
@@ -15,7 +21,7 @@ type APIError struct {
 
 // Error returns error message.
 func (e *APIError) Error() string {
-	return e.Message
+	return e.Body.Message
 }
 
 // AddContext to the error.
@@ -65,8 +71,10 @@ func (e *APIError) WantsToShowTrace() bool {
 
 // InternalServerError throw for 500.
 var InternalServerError = &APIError{
-	ID:           "internal_server_error",
-	Message:      "The server encountered an internal error or misconfiguration and was unable to complete your request.",
+	Body: Body{
+		ID:      "internal_server_error",
+		Message: "The server encountered an internal error or misconfiguration and was unable to complete your request.",
+	},
 	HTTPCode:     http.StatusInternalServerError,
 	ShouldReport: true,
 	HasTrace:     true,
@@ -74,29 +82,37 @@ var InternalServerError = &APIError{
 
 // Forbidden throw for 403.
 var Forbidden = &APIError{
-	ID:       "forbidden",
-	Message:  "You don't have permissions to perform this request.",
+	Body: Body{
+		ID:      "forbidden",
+		Message: "You don't have permissions to perform this request.",
+	},
 	HTTPCode: http.StatusForbidden,
 }
 
 // Unauthorized throw for 401.
 var Unauthorized = &APIError{
-	ID:       "invalid_credentials",
-	Message:  "Sent credentials are invalid.",
+	Body: Body{
+		ID:      "invalid_credentials",
+		Message: "Sent credentials are invalid.",
+	},
 	HTTPCode: http.StatusUnauthorized,
 }
 
 // NotFound throw for 404.
 var NotFound = &APIError{
-	ID:       "not_found",
-	Message:  "Requested object not found.",
+	Body: Body{
+		ID:      "not_found",
+		Message: "Requested object not found.",
+	},
 	HTTPCode: http.StatusNotFound,
 }
 
 // BadRequest throw for 402.
 var BadRequest = &APIError{
-	ID:       "bad_request",
-	Message:  "The server cannot process the request due to its malformed syntax.",
+	Body: Body{
+		ID:      "bad_request",
+		Message: "The server cannot process the request due to its malformed syntax.",
+	},
 	HTTPCode: http.StatusBadRequest,
 }
 
@@ -113,7 +129,9 @@ type ValidationError struct {
 
 // ValiationFailed throw for 422.
 var ValiationFailed = &APIError{
-	ID:       "validation_failed",
-	Message:  "Validation failed.",
+	Body: Body{
+		ID:      "validation_failed",
+		Message: "Validation failed.",
+	},
 	HTTPCode: http.StatusUnprocessableEntity,
 }
